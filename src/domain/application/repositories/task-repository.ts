@@ -1,4 +1,4 @@
-import { Category } from 'src/domain/enterprise/entities/Category';
+import { Category } from 'src/domain/enterprise/entities/category';
 
 export interface TaskProps {
   id?: string;

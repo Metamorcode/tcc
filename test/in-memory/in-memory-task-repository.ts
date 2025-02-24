@@ -1,5 +1,5 @@
 import { TaskProps, TaskRepository } from 'src/domain/application/repositories/task-repository';
-import { Task } from '../../src/domain/enterprise/entities/Task';
+import { Task } from '../../src/domain/enterprise/entities/task';
 import { v4 as uuidv4 } from 'uuid';
 
 export class InMemoryTaskRepository implements TaskRepository {

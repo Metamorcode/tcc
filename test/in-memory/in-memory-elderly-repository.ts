@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { Elderly } from '../../src/domain/enterprise/entities/Elderly';
+import { Elderly } from '../../src/domain/enterprise/entities/elderly';
 import {
   ElderlyRepository,
   ElderlyProps,
@@ -22,6 +22,16 @@ export class InMemoryElderlyRepository implements ElderlyRepository {
     });
     console.log(elderly);
     InMemoryElderlyRepository.elderly[elderlyIndex] = elderly;
+  }
+
+  delete(id: string): void {
+    const elderlyIndex = InMemoryElderlyRepository.elderly.findIndex((elderly) => {
+      return elderly.getId() === id;
+    });
+
+    if (elderlyIndex !== -1) {
+      InMemoryElderlyRepository.elderly.splice(elderlyIndex, 1);
+    }
   }
 
   getByName(firstName: string, lastName: string): Elderly | null {

@@ -1,5 +1,5 @@
 import { ElderlyRepository } from '../../repositories/elderly-repository';
-import { Elderly } from '../../../enterprise/entities/Elderly';
+import { Elderly } from '../../../enterprise/entities/elderly';
 
 export class GetByNameElderlyUseCase {
   constructor(readonly repository: ElderlyRepository) {}

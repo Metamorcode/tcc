@@ -1,0 +1,5 @@
+export enum UserRoles {
+  CREATOR = 'CREATOR',
+  EXECUTOR = 'EXECUTOR',
+  FAMILYMEMBER = 'FAMILYMEMBER',
+}

@@ -1,6 +1,6 @@
 import { InMemoryTaskRepository } from '../../../../../test/in-memory/in-memory-task-repository';
 import { UpdateTaskUseCase } from './update-task';
-import { Category } from '../../../enterprise/entities/Category';
+import { Category } from '../../../enterprise/entities/category';
 import { v4 as uuidv4 } from 'uuid';
 
 describe('Update a Task', () => {

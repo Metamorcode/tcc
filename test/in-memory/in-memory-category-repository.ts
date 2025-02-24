@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { Category } from '../../src/domain/enterprise/entities/Category';
+import { Category } from '../../src/domain/enterprise/entities/category';
 import { CategoryRepository } from 'src/domain/application/repositories/category-repository';
 
 export class InMemoryCategoryRepository implements CategoryRepository {

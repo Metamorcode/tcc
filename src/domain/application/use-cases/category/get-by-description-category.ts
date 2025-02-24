@@ -1,5 +1,5 @@
 import { CategoryRepository } from '../../repositories/category-repository';
-import { Category } from '../../../enterprise/entities/Category';
+import { Category } from '../../../enterprise/entities/category';
 
 export class GetByCategoryDescriptionUseCase {
   constructor(readonly repository: CategoryRepository) {}

@@ -1,4 +1,4 @@
-import { Elderly } from 'src/domain/enterprise/entities/Elderly';
+import { Elderly } from 'src/domain/enterprise/entities/elderly';
 
 export interface ElderlyProps {
   id?: string;
@@ -10,5 +10,6 @@ export interface ElderlyProps {
 export abstract class ElderlyRepository {
   abstract create(props: ElderlyProps): void;
   abstract update(props: ElderlyProps): void;
+  abstract delete(id: string): void;
   abstract getByName(firstName: string, lastName: string): Elderly | null;
 }
