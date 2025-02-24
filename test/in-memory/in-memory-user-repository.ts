@@ -38,4 +38,8 @@ export class InMemoryUserRepository implements UserRepository {
 
     return result ? result : null;
   }
+
+  getAllUsers(): Promise<User[]> {
+    return Promise.resolve(InMemoryUserRepository.user);
+  }
 }

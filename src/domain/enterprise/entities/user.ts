@@ -50,4 +50,5 @@ export class User {
   getByRole() {
     return this.role;
   }
+
 }

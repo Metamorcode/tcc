@@ -1,25 +1,31 @@
 import { Category } from './category';
 
 export class Task {
-  private id?: string;
   private description: string;
-  private eventDate: Date;
-  private completed: boolean;
+  private eventTime: Date;
   private category: Category;
+  private repeatFor: number;
+  private completed: boolean;
+  private elderlyId: string;
+  private id?: string;
   private createdAt?: Date;
 
   constructor(
     description: string,
-    eventDate: Date,
-    completed: boolean,
+    eventTime: Date,
     category: Category,
+    repeatFor: number,
+    completed: boolean,
+    elderlyId: string,
     id?: string,
     createdAt?: Date
   ) {
     this.description = description;
-    this.eventDate = eventDate;
-    this.completed = completed;
+    this.eventTime = eventTime;
     this.category = category;
+    this.repeatFor = repeatFor;
+    this.completed = completed;
+    this.elderlyId = elderlyId;
     this.id = id;
     this.createdAt = createdAt;
   }
@@ -32,19 +38,31 @@ export class Task {
     return this.description;
   }
 
-  getCreateAt() {
-    return this.createdAt;
+  getEventTime() {
+    return this.eventTime;
   }
 
-  getEventDate() {
-    return this.eventDate;
+  getCategory() {
+    return this.category;
+  }
+
+  getRepeatFor() {
+    return this.repeatFor;
   }
 
   getCompleted() {
     return this.completed;
   }
 
-  getCategory() {
-    return this.category;
+  getElderlyId() {
+    return this.elderlyId;
+  }
+
+  getCreateAt() {
+    return this.createdAt;
+  }
+
+  setCompleted(completed: boolean): void {
+    this.completed = completed;
   }
 }

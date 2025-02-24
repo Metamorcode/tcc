@@ -16,4 +16,5 @@ export abstract class UserRepository {
   abstract delete(id: string): void;
   abstract update(props: UserProps): void;
   abstract getByName(firstName: string, lastName: string): User | null;
+  abstract getAllUsers(): Promise<User[]>;
 }

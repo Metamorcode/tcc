@@ -1,16 +1,17 @@
 import { InMemoryTaskRepository } from '../../../../../test/in-memory/in-memory-task-repository';
-import { UpdateTaskUseCase } from './update-task';
+import { PatchTaskUseCase } from './patch-by-id-task';
 import { Category } from '../../../enterprise/entities/category';
 import { v4 as uuidv4 } from 'uuid';
 
-describe('Update a Task', () => {
+describe('Patch a Task status', () => {
   const repository = new InMemoryTaskRepository();
 
-  it('should be able to update a task', () => {
-    const updateTask = new UpdateTaskUseCase(repository);
+  it('should be able to patch the atribute task completed', () => {
+    const patchTask = new PatchTaskUseCase(repository);
 
     const category = new Category('1', 'Diário');
     const id = uuidv4();
+
     repository.create({
       id,
       description: 'Trocar o curativo das costas',
@@ -22,21 +23,12 @@ describe('Update a Task', () => {
       createdAt: new Date(),
     });
 
-    const newCategory = new Category('2', 'Semanal');
-
-    const taskToUpdate = {
-      id,
-      description: 'Trocar o curativo das pernas',
-      eventTime: new Date('2025-02-25T12:00:00.000Z'),
-      category: category,
-      repeatFor: 2,
-      completed: false,
-      elderlyId: '123',
-      createdAt: new Date(),
-    };
-
-    updateTask.execute(taskToUpdate);
+    patchTask.execute(id, true);
     console.log(InMemoryTaskRepository.tasks[0]);
-    expect(InMemoryTaskRepository.tasks[0]).toEqual(taskToUpdate);
+
+    expect(InMemoryTaskRepository.tasks[0].getCompleted()).toEqual(true);
+    expect(InMemoryTaskRepository.tasks[0].getDescription()).toEqual(
+      'Trocar o curativo das costas'
+    );
   });
 });

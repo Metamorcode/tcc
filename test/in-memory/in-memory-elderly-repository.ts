@@ -41,4 +41,8 @@ export class InMemoryElderlyRepository implements ElderlyRepository {
 
     return result ? result : null;
   }
+
+  getAllElderly(): Promise<Elderly[]> {
+    return Promise.resolve(InMemoryElderlyRepository.elderly);
+  }
 }

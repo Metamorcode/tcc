@@ -12,4 +12,5 @@ export abstract class ElderlyRepository {
   abstract update(props: ElderlyProps): void;
   abstract delete(id: string): void;
   abstract getByName(firstName: string, lastName: string): Elderly | null;
+  abstract getAllElderly(): Promise<Elderly[]>;
 }
