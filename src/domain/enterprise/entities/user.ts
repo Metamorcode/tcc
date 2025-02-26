@@ -1,13 +1,13 @@
 import { UserRoles } from './user.role';
 
 export class User {
-  id?: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  login: string;
-  password: string;
-  role: UserRoles;
+  private id?: string;
+  private firstName: string;
+  private lastName: string;
+  private email: string;
+  private login: string;
+  private password: string;
+  private role: UserRoles;
 
   constructor(
     firstName: string,
@@ -50,5 +50,4 @@ export class User {
   getByRole() {
     return this.role;
   }
-
 }

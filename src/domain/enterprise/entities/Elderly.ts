@@ -4,7 +4,7 @@ export class Elderly {
   private lastName: string;
   private birthDate: Date;
 
-  constructor(firstName: string, lastName: string, birthDate: Date, id?: string, ) {
+  constructor(firstName: string, lastName: string, birthDate: Date, id?: string) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
