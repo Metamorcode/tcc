@@ -6,7 +6,7 @@ import { Category } from '../../../enterprise/entities/category';
 describe('Get Task by category', () => {
   const repository = new InMemoryTaskRepository();
   const dailyCategory = new Category('1', 'Diário');
-  const Weeklycategory = new Category('2', 'Semanal');
+  const weeklyCategory = new Category('2', 'Semanal');
 
   it('should be able to get a Task by category', () => {
     repository.create({
@@ -24,7 +24,7 @@ describe('Get Task by category', () => {
       id: '2',
       description: 'Trocar o curativo das pernas',
       eventTime: new Date('2025-02-25T12:00:00.000Z'),
-      category: Weeklycategory,
+      category: weeklyCategory,
       repeatFor: 2,
       completed: false,
       elderlyId: '123',

@@ -22,8 +22,6 @@ describe('Update a Task', () => {
       createdAt: new Date(),
     });
 
-    const newCategory = new Category('2', 'Semanal');
-
     const taskToUpdate = {
       id,
       description: 'Trocar o curativo das pernas',
