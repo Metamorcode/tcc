@@ -1,4 +1,6 @@
 import { UserRoles } from './user.role';
+import { Task } from './task';
+import { Category } from './category';
 
 export class User {
   private id?: string;
@@ -8,6 +10,7 @@ export class User {
   private login: string;
   private password: string;
   private role: UserRoles;
+  private _tasks: Task[];
 
   constructor(
     firstName: string,
@@ -16,7 +19,8 @@ export class User {
     login: string,
     password: string,
     role: UserRoles,
-    id?: string
+    id?: string,
+    tasks: Task[] = []
   ) {
     this.id = id;
     this.firstName = firstName;
@@ -25,6 +29,7 @@ export class User {
     this.login = login;
     this.password = password;
     this.role = role;
+    this._tasks = tasks; 
   }
 
   getId() {
@@ -32,22 +37,60 @@ export class User {
   }
 
   getByName() {
+    return this.firstName;
+  }
+
+  getFirstName() {
+    return this.firstName;
+  }
+  
+  getLastName() {
     return this.firstName + this.lastName;
   }
 
-  getByEmail() {
+  getEmail() {
     return this.email;
   }
 
-  getByLogin() {
+  getLogin() {
     return this.login;
   }
 
-  getByPassword() {
+  getPassword() {
     return this.password;
   }
 
   getByRole() {
     return this.role;
   }
+
+  get tasks(): Task[] { 
+    return [...this._tasks]; 
+  }
+
+
+  addTask(taskProps: {
+    description: string;
+    eventTime: Date;
+    category: Category;
+    repeatFor: number;
+    completed: boolean;
+    elderlyId: string;
+  }): Task {
+    const newTask = new Task(
+      taskProps.description,
+      taskProps.eventTime,
+      taskProps.category,
+      taskProps.repeatFor,
+      taskProps.completed,
+      taskProps.elderlyId
+    );
+    this._tasks.push(newTask);
+    return newTask;
+  }
+
+  set tasks(tasks: Task[]) {
+    this._tasks = tasks;
+  }
+
 }

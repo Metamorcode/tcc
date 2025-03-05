@@ -8,9 +8,13 @@ export interface ElderlyProps {
 }
 
 export abstract class ElderlyRepository {
-  abstract create(props: ElderlyProps): void;
-  abstract update(props: ElderlyProps): void;
-  abstract delete(id: string): void;
+  abstract create(props: ElderlyProps): Promise<void>;
+
+  abstract update(props: ElderlyProps): Promise<void>;
+
+  abstract delete(id: string): Promise<void>;
+
   abstract getByName(firstName: string, lastName: string): Elderly | null;
+
   abstract getAllElderly(): Promise<Elderly[]>;
 }

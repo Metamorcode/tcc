@@ -13,7 +13,7 @@ export interface TaskProps {
 }
 
 export abstract class TaskRepository {
-  abstract create(props: TaskProps): void;
+  abstract create(props: Task): Promise<void>;
   abstract delete(id: string): void;
   abstract update(props: TaskProps): void;
   abstract patch(id: string, completed: boolean): void;

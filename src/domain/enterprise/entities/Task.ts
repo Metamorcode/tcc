@@ -65,4 +65,8 @@ export class Task {
   setCompleted(completed: boolean): void {
     this.completed = completed;
   }
+
+  updateStatus(completed: boolean) {
+    this.completed = completed;
+  }
 }

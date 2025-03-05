@@ -11,15 +11,23 @@ export class Elderly {
     this.birthDate = birthDate;
   }
 
-  getId() {
+  getId(): string | undefined {
     return this.id;
   }
 
-  getByName() {
-    return this.firstName + this.lastName;
+  getFirstName(): string {
+    return this.firstName;
   }
 
-  getBirth() {
+  getLastName(): string {
+    return this.lastName;
+  }
+
+  getByName(): string {
+    return `${this.firstName} ${this.lastName}`;
+  }
+
+  getBirth(): Date {
     return this.birthDate;
   }
 }
