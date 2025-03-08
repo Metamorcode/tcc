@@ -3,7 +3,6 @@ import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody } from '@nestjs/s
 import { CreateUserUseCase } from '../../../domain/application/use-cases/user/create-user';
 import { UserDto } from './dto/user.dto';
 import { GetAllUsersUseCase } from '../../../domain/application/use-cases/user/get-all-users';
-import { User } from '../../../domain/enterprise/entities/user';
 
 @ApiTags('Users')
 @Controller('api/users')
@@ -25,7 +24,7 @@ export class UserController {
     description: 'Bad Request: Invalid input data.',
   })
   async create(@Body() createUserDto: UserDto) {
-    const u = new User(
+    const user = await this.createUserUseCase.execute(
       createUserDto.firstName,
       createUserDto.lastName,
       createUserDto.email,
@@ -33,8 +32,6 @@ export class UserController {
       createUserDto.password,
       createUserDto.role
     );
-
-    const user = await this.createUserUseCase.execute(u);
     return {
       message: 'User created successfully',
     };

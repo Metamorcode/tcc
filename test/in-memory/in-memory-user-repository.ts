@@ -1,20 +1,17 @@
-import { v4 as uuidv4 } from 'uuid';
 import { User } from '../../src/domain/enterprise/entities/user';
 import { UserRepository, UserProps } from 'src/domain/application/repositories/user-repository';
 
 export class InMemoryUserRepository implements UserRepository {
-  constructor() {}
-  static user: User[] = [];
+  private users: User[] = [];
 
-  create({ firstName, lastName, email, login, password, role, id }: UserProps): Promise<void> {
-    return new Promise((resolve) => {
-      const newId = id ? id : uuidv4();
-      const user = new User(firstName, lastName, email, login, password, role, newId);
-      InMemoryUserRepository.user.push(user);
-      resolve(); // Resolve a promise, indicando que a operação foi concluída
-    });
+  async create(user: User): Promise<void> {
+    const index = this.users.findIndex((u) => u.getId() === user.getId());
+    if (index !== -1) {
+      this.users[index] = user;
+    } else {
+      this.users.push(user);
+    }
   }
-  
 
   async update({
     firstName,
@@ -25,53 +22,43 @@ export class InMemoryUserRepository implements UserRepository {
     role,
     id,
   }: UserProps): Promise<void> {
-    const userIndex = InMemoryUserRepository.user.findIndex((user) => user.getId() === id);
+    const userIndex = this.users.findIndex((user) => user.getId() === id);
 
     if (userIndex !== -1) {
       const updatedUser = new User(firstName, lastName, email, login, password, role, id);
-      InMemoryUserRepository.user[userIndex] = updatedUser;
+      this.users[userIndex] = updatedUser;
     }
   }
 
   async delete(id: string): Promise<void> {
-    const userIndex = InMemoryUserRepository.user.findIndex((user) => user.getId() === id);
-  
-    if (userIndex !== -1) {
-      InMemoryUserRepository.user.splice(userIndex, 1);
-    }
+    this.users = this.users.filter((user) => user.getId() !== id);
   }
-  
 
   async getByName(firstName: string, lastName: string): Promise<User | null> {
-    const result = InMemoryUserRepository.user.find((user) => {
-      return user.getByName() === firstName + lastName;
-    });
-  
-    return result ? result : null;
-  }
-  
-  async getFirstName(firstName: string): Promise<User | null> {
-    const result = InMemoryUserRepository.user.find(
-      (user) => user.getFirstName() === firstName
+    const result = this.users.find(
+      (user) => user.getFirstName() === firstName && user.getLastName() === lastName
     );
-    return result ? result : null;
-  }
-  
-  async getLastName(lastName: string): Promise<User | null> {
-    const result = InMemoryUserRepository.user.find(
-      (user) => user.getLastName() === lastName
-    );
-    return result ? result : null;
+    return result || null;
   }
 
-  async findAll(): Promise<User[]> {
-    return InMemoryUserRepository.user;
+  async getFirstName(firstName: string): Promise<User | null> {
+    return this.users.find((user) => user.getFirstName() === firstName) || null;
+  }
+
+  async getLastName(lastName: string): Promise<User | null> {
+    return this.users.find((user) => user.getLastName() === lastName) || null;
+  }
+
+  async getAllUsers(): Promise<User[]> {
+    return this.users;
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    const result = InMemoryUserRepository.user.find(
-      (user) => user.getEmail() === email
-    );
-    return result ? result : null;
+    return this.users.find((user) => user.getEmail() === email) || null;
+  }
+
+  /** Utility method for clearing repository data in tests */
+  reset(): void {
+    this.users = [];
   }
 }

@@ -23,7 +23,7 @@ export class TypeORMUserRepository implements UserRepository {
       userProps.getEmail(),
       userProps.getLogin(),
       userProps.getPassword(),
-      userProps.getByRole()
+      userProps.getRole()
       //userProps.getTasks(),
     );
     const userEntity = TypeORMUserMapper.toTypeORM(user);

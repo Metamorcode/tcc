@@ -23,16 +23,16 @@ export class UserDto {
 
   @IsString()
   @IsNotEmpty()
-  @ApiProperty({ description: 'The last name of the user', example: 'Doe' })
+  @ApiProperty({ description: 'The login of the user', example: 'john.doe' })
   login: string;
 
   @IsString()
   @IsNotEmpty()
-  @ApiProperty({ description: 'The last name of the user', example: 'Doe' })
+  @ApiProperty({ description: 'The password of the user', example: '123456' })
   password: string;
 
   @IsString()
   @IsNotEmpty()
-  @ApiProperty({ description: 'The last name of the user', example: 'Doe' })
+  @ApiProperty({ description: 'The role of the user', example: 'CREATOR' })
   role: UserRoles;
 }

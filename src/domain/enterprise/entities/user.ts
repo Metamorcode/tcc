@@ -3,13 +3,13 @@ import { Task } from './task';
 import { Category } from './category';
 
 export class User {
-  private id?: string;
-  private firstName: string;
-  private lastName: string;
-  private email: string;
-  private login: string;
-  private password: string;
-  private role: UserRoles;
+  private _id?: string;
+  private _firstName: string;
+  private _lastName: string;
+  private _email: string;
+  private _login: string;
+  private _password: string;
+  private _role: UserRoles;
   private _tasks: Task[];
 
   constructor(
@@ -22,46 +22,42 @@ export class User {
     id?: string,
     tasks: Task[] = []
   ) {
-    this.id = id;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.email = email;
-    this.login = login;
-    this.password = password;
-    this.role = role;
+    this._id = id;
+    this._firstName = firstName;
+    this._lastName = lastName;
+    this._email = email;
+    this._login = login;
+    this._password = password;
+    this._role = role;
     this._tasks = tasks;
   }
 
   getId() {
-    return this.id;
-  }
-
-  getByName() {
-    return this.firstName;
+    return this._id;
   }
 
   getFirstName() {
-    return this.firstName;
+    return this._firstName;
   }
 
   getLastName() {
-    return this.firstName + this.lastName;
+    return this._lastName;
   }
 
   getEmail() {
-    return this.email;
+    return this._email;
   }
 
   getLogin() {
-    return this.login;
+    return this._login;
   }
 
   getPassword() {
-    return this.password;
+    return this._password;
   }
 
-  getByRole() {
-    return this.role;
+  getRole() {
+    return this._role;
   }
 
   getTasks(): Task[] {
