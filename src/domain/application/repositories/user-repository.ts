@@ -12,13 +12,12 @@ export interface UserProps {
 }
 
 export abstract class UserRepository {
-  abstract create(user: UserProps): Promise<void>;
+  abstract create(user: User): Promise<void>;
   abstract delete(id: string): Promise<void>;
   abstract update(user: UserProps): Promise<void>;
   abstract getByName(firstName: string, lastName: string): Promise<User | null>;
   abstract getFirstName(firstName: string): Promise<User | null>;
   abstract getLastName(lastName: string): Promise<User | null>;
-  abstract findAll(): Promise<User[]>;
+  abstract getAllUsers(): Promise<User[]>;
   abstract findByEmail(email: string): Promise<User | null>;
 }
-

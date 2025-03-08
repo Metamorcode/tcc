@@ -4,31 +4,46 @@ import { v4 as uuidv4 } from 'uuid';
 
 export class InMemoryTaskRepository implements TaskRepository {
   constructor() {}
-  static tasks: Task[] = [];
 
-  create({
-    description,
-    eventTime,
-    category,
-    repeatFor,
-    completed,
-    elderlyId,
-    id,
-    createdAt,
-  }: TaskProps): void {
-    const newId = id ? id : uuidv4();
+  async create(props: Task): Promise<void> {
+    const newId = props.getId() ? props.getId() : uuidv4();
     const task = new Task(
-      description,
-      eventTime,
-      category,
-      repeatFor,
-      completed,
-      elderlyId,
+      props.getDescription(),
+      props.getEventTime(),
+      props.getCategory(),
+      props.getRepeatFor(),
+      props.getCompleted(),
+      props.getElderlyId(),
       newId,
-      createdAt
+      props.getCreateAt()
     );
     InMemoryTaskRepository.tasks.push(task);
   }
+  static tasks: Task[] = [];
+
+  // create({
+  //   description,
+  //   eventTime,
+  //   category,
+  //   repeatFor,
+  //   completed,
+  //   elderlyId,
+  //   id,
+  //   createdAt,
+  // }: Task): void {
+  //   const newId = id ? id : uuidv4();
+  //   const task = new Task(
+  //     description,
+  //     eventTime,
+  //     category,
+  //     repeatFor,
+  //     completed,
+  //     elderlyId,
+  //     newId,
+  //     createdAt
+  //   );
+  //   InMemoryTaskRepository.tasks.push(task);
+  // }
 
   update({
     description,

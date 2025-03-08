@@ -16,16 +16,15 @@ export class TypeORMUserRepository implements UserRepository {
     private readonly repository: Repository<UserEntity>
   ) {}
 
-  async create(userProps: UserProps): Promise<void> {
-    // Agora você cria uma instância de User a partir de UserProps
+  async create(userProps: User): Promise<void> {
     const user = new User(
-      userProps.firstName,
-      userProps.lastName,
-      userProps.email,
-      userProps.login,
-      userProps.password,
-      userProps.role,
-      userProps.id
+      userProps.getFirstName(),
+      userProps.getLastName(),
+      userProps.getEmail(),
+      userProps.getLogin(),
+      userProps.getPassword(),
+      userProps.getByRole()
+      //userProps.getTasks(),
     );
     const userEntity = TypeORMUserMapper.toTypeORM(user);
     await this.repository.save(userEntity);

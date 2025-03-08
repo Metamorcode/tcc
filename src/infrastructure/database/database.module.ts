@@ -12,14 +12,20 @@ import { UserRepository } from '../../domain/application/repositories/user-repos
 import { TypeORMUserRepository } from './typeorm/repositories/typeorm.user.repository';
 
 import { TaskRepository } from '../../domain/application/repositories/task-repository';
-// import { TypeORMTaskRepository } from './typeorm/repositories/typeorm.task.repository';
+import { TypeORMTaskRepository } from './typeorm/repositories/typeorm.task.repository';
 
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
       useClass: TypeOrmConfigService,
     }),
-    TypeOrmModule.forFeature([CategoryEntity, ElderlyEntity, UserEntity, TaskEntity, MedicineEntity]),
+    TypeOrmModule.forFeature([
+      CategoryEntity,
+      ElderlyEntity,
+      UserEntity,
+      TaskEntity,
+      MedicineEntity,
+    ]),
   ],
   providers: [
     {

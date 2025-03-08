@@ -29,7 +29,7 @@ export class User {
     this.login = login;
     this.password = password;
     this.role = role;
-    this._tasks = tasks; 
+    this._tasks = tasks;
   }
 
   getId() {
@@ -43,7 +43,7 @@ export class User {
   getFirstName() {
     return this.firstName;
   }
-  
+
   getLastName() {
     return this.firstName + this.lastName;
   }
@@ -64,10 +64,9 @@ export class User {
     return this.role;
   }
 
-  get tasks(): Task[] { 
-    return [...this._tasks]; 
+  getTasks(): Task[] {
+    return [...this._tasks];
   }
-
 
   addTask(taskProps: {
     description: string;
@@ -92,5 +91,4 @@ export class User {
   set tasks(tasks: Task[]) {
     this._tasks = tasks;
   }
-
 }

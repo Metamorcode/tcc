@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { TaskEntity } from './task.entity';
-import { UserRoles } from './user.role'; // Assumindo que UserRoles é um enum
+import { UserRoles } from './user.role'; 
 
 @Entity('users')
 export class UserEntity {
@@ -24,7 +24,7 @@ export class UserEntity {
 
   @Column({
     type: 'enum',
-    enum: UserRoles,  // Garantindo que role é um enum, se for o caso
+    enum: UserRoles,
   })
   role: UserRoles;
 

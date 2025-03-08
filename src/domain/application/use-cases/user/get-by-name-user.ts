@@ -4,7 +4,7 @@ import { User } from '../../../enterprise/entities/user';
 export class GetByNameUserUseCase {
   constructor(readonly repository: UserRepository) {}
 
-  execute(firstName: string, lastName: string): User | null {
-    return this.repository.getByName(firstName, lastName);
+  async execute(firstName: string, lastName: string): Promise<User | null> {
+    return await this.repository.getByName(firstName, lastName);
   }
 }

@@ -2,8 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import { EnvConfig } from '../env/entities/env.config';
-// import { UserEntity } from '@/infrastructure/database/typeorm/entities/user.entity';
-// import { TaskEntity } from '@/infrastructure/database/typeorm/entities/task.entity';
+import { UserEntity } from '../../infrastructure/database/typeorm/entities/user.entity';
+import { TaskEntity } from '../../infrastructure/database/typeorm/entities/task.entity';
+import { CategoryEntity } from '../../infrastructure/database/typeorm/entities/category.entity';
+import { ElderlyEntity } from '../../infrastructure/database/typeorm/entities/elderly.entity';
+import { MedicineEntity } from '../../infrastructure/database/typeorm/entities/medicine.entity';
 
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
@@ -31,7 +34,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       username: dbUsername,
       password: dbPassword,
       database: dbName,
-      // entities: [UserEntity, TaskEntity],
+      entities: [UserEntity, TaskEntity, CategoryEntity, ElderlyEntity, MedicineEntity],
       synchronize: process.env.NODE_ENV !== 'production',
       logging: process.env.NODE_ENV !== 'production',
     };

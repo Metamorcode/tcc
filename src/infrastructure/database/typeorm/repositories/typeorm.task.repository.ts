@@ -1,7 +1,10 @@
 import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { TaskRepository } from '../../../../domain/application/repositories/task-repository';
+import {
+  TaskProps,
+  TaskRepository,
+} from '../../../../domain/application/repositories/task-repository';
 import { Task } from '../../../../domain/enterprise/entities/task';
 import { TaskEntity } from '../entities/task.entity';
 import { TypeORMTaskMapper } from '../mappers/typeorm.task.mapper';
@@ -12,69 +15,87 @@ export class TypeORMTaskRepository implements TaskRepository {
     @InjectRepository(TaskEntity)
     private readonly repository: Repository<TaskEntity>
   ) {}
-
-  async create(task: Task): Promise<void> {
-    const taskEntity = TypeORMTaskMapper.toTypeORM(task);
-    await this.repository.save(taskEntity);
+  create(props: Task): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
+  delete(id: string): void {
+    throw new Error('Method not implemented.');
+  }
+  update(props: TaskProps): void {
+    throw new Error('Method not implemented.');
+  }
+  patch(id: string, completed: boolean): void {
+    throw new Error('Method not implemented.');
+  }
+  getAllTasks(): Promise<Task[]> {
+    throw new Error('Method not implemented.');
+  }
+  getByCategory(category: string): Task[] {
+    throw new Error('Method not implemented.');
   }
 
-  async findById(id: string): Promise<Task | null> {
-    const TaskEntity = await this.repository.findOne({
-      where: { id },
-      relations: ['tasks'],
-    });
+  // async create(task: Task): Promise<void> {
+  //   const taskEntity = TypeORMTaskMapper.toTypeORM(task);
+  //   await this.repository.save(taskEntity);
+  // }
 
-    if (!TaskEntity) {
-      return null;
-    }
+  // async findById(id: string): Promise<Task | null> {
+  //   const TaskEntity = await this.repository.findOne({
+  //     where: { id },
+  //     relations: ['tasks'],
+  //   });
 
-    return TypeORMTaskMapper.toDomain(TaskEntity);
-  }
+  //   if (!TaskEntity) {
+  //     return null;
+  //   }
 
-  async findAll(): Promise<Task[]> {
-    const TaskEntities = await this.repository.find({
-      relations: ['tasks'],
-    });
+  //   return TypeORMTaskMapper.toDomain(TaskEntity);
+  // }
 
-    return TaskEntities.map(TypeORMTaskMapper.toDomain);
-  }
+  // async findAll(): Promise<Task[]> {
+  //   const TaskEntities = await this.repository.find({
+  //     relations: ['tasks'],
+  //   });
 
-  async findByEmail(email: string): Promise<Task | null> {
-    const TaskEntity = await this.repository.findOne({
-      where: { email },
-    });
+  //   return TaskEntities.map(TypeORMTaskMapper.toDomain);
+  // }
 
-    if (!TaskEntity) {
-      return null;
-    }
+  // async findByEmail(email: string): Promise<Task | null> {
+  //   const TaskEntity = await this.repository.findOne({
+  //     where: { email },
+  //   });
 
-    return TypeORMTaskMapper.toDomain(TaskEntity);
-  }
+  //   if (!TaskEntity) {
+  //     return null;
+  //   }
 
-  async update(Task: Task): Promise<void> {
-    const TaskEntity = TypeORMTaskMapper.toTypeORM(Task);
-    await this.repository.save(TaskEntity);
-  }
+  //   return TypeORMTaskMapper.toDomain(TaskEntity);
+  // }
 
-  async delete(id: string): Promise<void> {
-    await this.repository.delete(id);
-  }
+  // async update(Task: Task): Promise<void> {
+  //   const TaskEntity = TypeORMTaskMapper.toTypeORM(Task);
+  //   await this.repository.save(TaskEntity);
+  // }
 
-  // Implementando os métodos ausentes:
-  async getByName(firstName: string, lastName: string): Promise<Task | null> {
-    const TaskEntity = await this.repository.findOne({
-      where: { firstName, lastName },
-    });
+  // async delete(id: string): Promise<void> {
+  //   await this.repository.delete(id);
+  // }
 
-    if (!TaskEntity) {
-      return null;
-    }
+  // // Implementando os métodos ausentes:
+  // async getByName(firstName: string, lastName: string): Promise<Task | null> {
+  //   const TaskEntity = await this.repository.findOne({
+  //     where: { firstName, lastName },
+  //   });
 
-    return TypeORMTaskMapper.toDomain(TaskEntity);
-  }
+  //   if (!TaskEntity) {
+  //     return null;
+  //   }
 
-  async getAllTasks(): Promise<Task[]> {
-    const TaskEntities = await this.repository.find();
-    return TaskEntities.map(TypeORMTaskMapper.toDomain);
-  }
+  //   return TypeORMTaskMapper.toDomain(TaskEntity);
+  // }
+
+  // async getAllTasks(): Promise<Task[]> {
+  //   const TaskEntities = await this.repository.find();
+  //   return TaskEntities.map(TypeORMTaskMapper.toDomain);
+  // }
 }

@@ -1,5 +1,8 @@
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from '../database/database.module';
+import { CreateUserUseCase } from '../../domain/application/use-cases/user/create-user';
+import { GetAllUsersUseCase } from '../../domain/application/use-cases/user/get-all-users';
+import { UserController } from './controllers/user.controller';
 // import { UserController } from './controllers/user.controller';
 // import { TaskController } from './controllers/task.controller';
 // import { CreateUserUseCase } from '@/domain/application/use-cases/user/create.user';
@@ -10,9 +13,10 @@ import { DatabaseModule } from '../database/database.module';
 
 @Module({
   imports: [DatabaseModule],
-  controllers: [UserController, TaskController],
+  controllers: [UserController /*, TaskController*/],
   providers: [
-    // CreateUserUseCase,
+    CreateUserUseCase,
+    GetAllUsersUseCase,
     // FindAllTasksUseCase,
     // FindUserByIdUseCase,
     // CreateTaskUseCase,
