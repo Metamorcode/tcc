@@ -7,6 +7,11 @@ export class UserDto {
   @IsNotEmpty()
   @ApiProperty({ description: 'The first name of the user', example: 'John' })
   firstName: string;
+  
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({ description: 'The last name of the user', example: 'Doe' })
+  lastName: string;
 
   @IsEmail()
   @IsNotEmpty()
@@ -15,11 +20,6 @@ export class UserDto {
     example: 'john.doe@example.com',
   })
   email: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty({ description: 'The last name of the user', example: 'Doe' })
-  lastName: string;
 
   @IsString()
   @IsNotEmpty()

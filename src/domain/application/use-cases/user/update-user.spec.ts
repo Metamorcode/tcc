@@ -2,34 +2,50 @@ import { InMemoryUserRepository } from '../../../../../test/in-memory/in-memory-
 import { UpdateUserUseCase } from './update-user';
 import { v4 as uuidv4 } from 'uuid';
 import { UserRoles } from '../../../../domain/enterprise/entities/user.role';
+import { User } from '../../../../domain/enterprise/entities/user';
 
 describe('Update a User', () => {
-  const repository = new InMemoryUserRepository();
+  let repository: InMemoryUserRepository;
+  let updateUser: UpdateUserUseCase;
 
-  it('should be able to update a user', () => {
-    const updateUser = new UpdateUserUseCase(repository);
+  beforeEach(() => {
+    repository = new InMemoryUserRepository();
+    updateUser = new UpdateUserUseCase(repository);
+  });
+
+  it('should be able to update a user', async () => {
     const id = uuidv4();
-    repository.create({
-      id,
-      firstName: 'Leonardo',
-      lastName: 'Almonfrey',
-      email: 'leo.almonfrey@example.com',
-      login: 'almonfrey',
-      password: 'godishere',
-      role: UserRoles.CREATOR,
-    });
+    const user = new User(
+      'Leonardo',
+      'Almonfrey',
+      'leo.almonfrey@example.com',
+      'almonfrey',
+      'godishere',
+      UserRoles.CREATOR,
+      id
+    );
 
-    const userToUpdate = {
-      id,
-      firstName: 'Thaygle',
-      lastName: 'Nogueira',
-      email: 'thaygle@example.com',
-      login: 'thaygle',
-      password: 'thanksgod',
-      role: UserRoles.FAMILYMEMBER,
-    };
-    updateUser.execute(userToUpdate);
-    console.log(InMemoryUserRepository.user[0]);
-    expect(InMemoryUserRepository.user[0]).toEqual(userToUpdate);
+    await repository.create(user);
+
+    const updatedUser = new User(
+      'Thaygle',
+      'Nogueira',
+      'thaygle@example.com',
+      'thaygle',
+      'thanksgod',
+      UserRoles.FAMILYMEMBER,
+      id
+    );
+
+    await updateUser.execute(updatedUser);
+
+    const storedUser = await repository.getById(id);
+
+    expect(storedUser).not.toBeNull();
+    expect(storedUser?.getFirstName()).toBe('Thaygle');
+    expect(storedUser?.getLastName()).toBe('Nogueira');
+    expect(storedUser?.getEmail()).toBe('thaygle@example.com');
+    expect(storedUser?.getLogin()).toBe('thaygle');
+    expect(storedUser?.getRole()).toBe(UserRoles.FAMILYMEMBER);
   });
 });

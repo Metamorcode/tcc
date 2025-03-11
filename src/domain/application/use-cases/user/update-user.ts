@@ -1,9 +1,10 @@
-import { UserProps, UserRepository } from '../../repositories/user-repository';
+import { User } from '../../../../domain/enterprise/entities/user';
+import { UserRepository } from '../../repositories/user-repository';
 
 export class UpdateUserUseCase {
-  constructor(readonly repository: UserRepository) {}
+  constructor(private readonly repository: UserRepository) {}
 
-  execute(props: UserProps) {
-    this.repository.update(props);
+  async execute(user: User): Promise<void> {
+    await this.repository.update(user); 
   }
 }

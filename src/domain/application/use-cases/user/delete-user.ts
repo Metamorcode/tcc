@@ -1,4 +1,4 @@
-import { UserProps, UserRepository } from '../../repositories/user-repository';
+import { UserRepository } from '../../repositories/user-repository';
 
 export class DeleteUserUseCase {
   constructor(readonly repository: UserRepository) {}

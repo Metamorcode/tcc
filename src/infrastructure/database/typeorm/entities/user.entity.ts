@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { TaskEntity } from './task.entity';
-import { UserRoles } from './user.role'; 
+import { UserRoles } from './user.role';
 
 @Entity('users')
 export class UserEntity {
@@ -19,7 +19,7 @@ export class UserEntity {
   @Column({ unique: true })
   login: string;
 
-  @Column({ unique: true })
+  @Column()
   password: string;
 
   @Column({

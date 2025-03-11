@@ -1,8 +1,8 @@
 import { Body, Controller, Get, NotFoundException, Param, Post } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody } from '@nestjs/swagger';
 import { CreateUserUseCase } from '../../../domain/application/use-cases/user/create-user';
-import { UserDto } from './dto/user.dto';
 import { GetAllUsersUseCase } from '../../../domain/application/use-cases/user/get-all-users';
+import { UserDto } from './dto/user.dto';
 
 @ApiTags('Users')
 @Controller('api/users')

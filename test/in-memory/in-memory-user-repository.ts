@@ -1,5 +1,5 @@
 import { User } from '../../src/domain/enterprise/entities/user';
-import { UserRepository, UserProps } from 'src/domain/application/repositories/user-repository';
+import { UserRepository } from 'src/domain/application/repositories/user-repository';
 
 export class InMemoryUserRepository implements UserRepository {
   private users: User[] = [];
@@ -13,20 +13,13 @@ export class InMemoryUserRepository implements UserRepository {
     }
   }
 
-  async update({
-    firstName,
-    lastName,
-    email,
-    login,
-    password,
-    role,
-    id,
-  }: UserProps): Promise<void> {
-    const userIndex = this.users.findIndex((user) => user.getId() === id);
+  async update(user: User): Promise<void> {
+    const userIndex = this.users.findIndex((existingUser) => existingUser.getId() === user.getId());
 
     if (userIndex !== -1) {
-      const updatedUser = new User(firstName, lastName, email, login, password, role, id);
-      this.users[userIndex] = updatedUser;
+      this.users[userIndex] = user;
+    } else {
+      throw new Error('User not found');
     }
   }
 
@@ -38,6 +31,11 @@ export class InMemoryUserRepository implements UserRepository {
     const result = this.users.find(
       (user) => user.getFirstName() === firstName && user.getLastName() === lastName
     );
+    return result || null;
+  }
+
+  async getById(id: string): Promise<User | null> {
+    const result = this.users.find((user) => user.getId() === id);
     return result || null;
   }
 

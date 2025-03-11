@@ -1,10 +1,7 @@
 import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import {
-  UserProps,
-  UserRepository,
-} from '../../../../domain/application/repositories/user-repository';
+import { UserRepository } from '../../../../domain/application/repositories/user-repository';
 import { User } from '../../../../domain/enterprise/entities/user';
 import { UserEntity } from '../entities/user.entity';
 import { TypeORMUserMapper } from '../mappers/typeorm.user.mapper';
@@ -16,14 +13,14 @@ export class TypeORMUserRepository implements UserRepository {
     private readonly repository: Repository<UserEntity>
   ) {}
 
-  async create(userProps: User): Promise<void> {
-    const user = new User(
-      userProps.getFirstName(),
-      userProps.getLastName(),
-      userProps.getEmail(),
-      userProps.getLogin(),
-      userProps.getPassword(),
-      userProps.getRole()
+  async create(user: User): Promise<void> {
+    const newUser = new User(
+      user.getFirstName(),
+      user.getLastName(),
+      user.getEmail(),
+      user.getLogin(),
+      user.getPassword(),
+      user.getRole()
       //userProps.getTasks(),
     );
     const userEntity = TypeORMUserMapper.toTypeORM(user);
@@ -63,15 +60,15 @@ export class TypeORMUserRepository implements UserRepository {
     return TypeORMUserMapper.toDomain(userEntity);
   }
 
-  async update(userProps: UserProps): Promise<void> {
-    const user = new User(
-      userProps.firstName,
-      userProps.lastName,
-      userProps.email,
-      userProps.login,
-      userProps.password,
-      userProps.role,
-      userProps.id
+  async update(user: User): Promise<void> {
+    const updateUser = new User(
+      user.getFirstName(),
+      user.getLastName(),
+      user.getEmail(),
+      user.getLogin(),
+      user.getPassword(),
+      user.getRole(),
+      user.getId()
     );
     const userEntity = TypeORMUserMapper.toTypeORM(user);
     await this.repository.save(userEntity);
