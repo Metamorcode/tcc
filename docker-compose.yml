@@ -16,7 +16,7 @@ services:
   # PostgreSQL to tests
   postgres_test:
     container_name: DB-TCC-TEST
-    image: postgres:latest
+    image: postgres
     ports:
       - '5433:5432'
     environment:
