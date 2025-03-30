@@ -1,102 +1,56 @@
-import { TaskProps, TaskRepository } from 'src/domain/application/repositories/task-repository';
 import { Task } from '../../src/domain/enterprise/entities/task';
-import { v4 as uuidv4 } from 'uuid';
+import { TaskRepository } from 'src/domain/application/repositories/task-repository';
+import { NotFoundException } from '@nestjs/common';
 
 export class InMemoryTaskRepository implements TaskRepository {
-  constructor() {}
+  private tasks: Task[] = [];
 
-  async create(props: Task): Promise<void> {
-    const newId = props.getId() ? props.getId() : uuidv4();
-    const task = new Task(
-      props.getDescription(),
-      props.getEventTime(),
-      props.getCategory(),
-      props.getRepeatFor(),
-      props.getCompleted(),
-      props.getElderlyId(),
-      newId,
-      props.getCreateAt()
-    );
-    InMemoryTaskRepository.tasks.push(task);
-  }
-  static tasks: Task[] = [];
-
-  // create({
-  //   description,
-  //   eventTime,
-  //   category,
-  //   repeatFor,
-  //   completed,
-  //   elderlyId,
-  //   id,
-  //   createdAt,
-  // }: Task): void {
-  //   const newId = id ? id : uuidv4();
-  //   const task = new Task(
-  //     description,
-  //     eventTime,
-  //     category,
-  //     repeatFor,
-  //     completed,
-  //     elderlyId,
-  //     newId,
-  //     createdAt
-  //   );
-  //   InMemoryTaskRepository.tasks.push(task);
-  // }
-
-  update({
-    description,
-    eventTime,
-    category,
-    repeatFor,
-    completed,
-    elderlyId,
-    id,
-    createdAt,
-  }: TaskProps): void {
-    const task = new Task(
-      description,
-      eventTime,
-      category,
-      repeatFor,
-      completed,
-      elderlyId,
-      id,
-      createdAt
-    );
-    const taskIndex = InMemoryTaskRepository.tasks.findIndex((task) => {
-      return task.getId() === id;
-    });
-    console.log(task);
-    InMemoryTaskRepository.tasks[taskIndex] = task;
+  async create(task: Task): Promise<Task> {
+    this.tasks.push(task);
+    return task;
   }
 
-  delete(id: string): void {
-    const taskIndex = InMemoryTaskRepository.tasks.findIndex((task) => {
-      return task.getId() === id;
-    });
+  async update(task: Task): Promise<Task> {
+    const taskIndex = this.tasks.findIndex((t) => t.getId() === task.getId());
 
-    if (taskIndex !== -1) {
-      InMemoryTaskRepository.tasks.splice(taskIndex, 1);
+    if (taskIndex === -1) {
+      throw new NotFoundException('Task not found');
     }
+
+    this.tasks[taskIndex] = task;
+    return task;
   }
 
-  patch(id: string, completed: boolean): void {
-    const taskIndex = InMemoryTaskRepository.tasks.findIndex((task) => {
-      return task.getId() === id;
-    });
-
-    InMemoryTaskRepository.tasks[taskIndex].setCompleted(completed);
+  async delete(id: string): Promise<boolean> {
+    const taskIndex = this.tasks.findIndex((task) => task.getId() === id);
+    if (taskIndex === -1) {
+      throw new NotFoundException('Task not found');
+    }
+    this.tasks.splice(taskIndex, 1);
+    return true;
   }
 
-  getAllTasks(): Promise<Task[]> {
-    return Promise.resolve(InMemoryTaskRepository.tasks);
+  async getById(id: string): Promise<Task | null> {
+    const task = this.tasks.find((task) => task.getId() === id);
+    return task || null;
   }
 
-  getByCategory(category: string): Task[] {
-    return InMemoryTaskRepository.tasks.filter((task) => {
-      return task.getCategory().getDescription() === category;
-    });
+  async getAllTasks(): Promise<Task[]> {
+    return this.tasks;
+  }
+
+  // PATCH agora retorna booleano
+  async patch(id: string, completed: boolean): Promise<boolean> {
+    const task = this.tasks.find((task) => task.getId() === id);
+    if (!task) {
+      return false; // Se a tarefa não for encontrada, retorna false
+    }
+
+    task.setCompleted(completed); // Atualiza o status de completado
+    return true; // Retorna true se a tarefa foi encontrada e o status atualizado
+  }
+
+  reset(): void {
+    this.tasks = [];
   }
 }

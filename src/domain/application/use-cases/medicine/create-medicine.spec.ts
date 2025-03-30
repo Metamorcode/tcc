@@ -1,37 +1,46 @@
 import { InMemoryMedicineRepository } from '../../../../../test/in-memory/in-memory-medicine-repository';
 import { CreateMedicineUseCase } from './create-medicine';
-import { Category } from '../../../enterprise/entities/category';
-import { Elderly } from '../../../enterprise/entities/elderly';
-import { v4 as uuidv4 } from 'uuid';
+import { CategoryDto } from '../../../../infrastructure/http/controllers/dto/category.dto';
 import { MedicineUnit } from '../../../enterprise/entities/medicine.unit';
+import { validate as isUUID } from 'uuid';
 
-describe('Create a Medicine', () => {
+describe('Create Medicine', () => {
   const repository = new InMemoryMedicineRepository();
 
-  it('should be able to create a new Medicine', () => {
+  it('should be able to create a new medicine', async () => {
     const createMedicine = new CreateMedicineUseCase(repository);
-    const category = new Category('1', 'Diário');
-    const newId = uuidv4();
+    const categoryDto = new CategoryDto();
+    categoryDto.id = '1';
+    categoryDto.description = 'Diário';
 
-    const elderly = new Elderly(
-      'Florêncio',
-      'Almonfrey',
-      new Date('1941-12-10T00:00:00.000Z'),
-      newId
+    const elderlyId = '123e4567-e89b-12d3-a456-426614174000';
+    const userId = 'user-id-1234';
+
+    const createdMedicine = await createMedicine.execute(
+      'Paracetamol',
+      2,
+      MedicineUnit.COMPRIMIDOS,
+      'Tomar remédio 2X ao dia',
+      new Date('2025-02-25T09:00:00.000Z'),
+      categoryDto,
+      5,
+      false,
+      elderlyId,
+      userId
     );
 
-    createMedicine.execute({
-      description: 'Tomar remédio 2X ao dia',
-      eventTime: new Date('2025-02-25T09:00:00.000Z'),
-      category: category,
-      repeatFor: 5,
-      completed: false,
-      elderlyId: newId,
-      name: 'Paracetamol',
-      quantity: 2,
-      unit: MedicineUnit.COMPRIMIDOS
-    });
-    
-    expect(InMemoryMedicineRepository.medicines.length).toEqual(1);
+    expect((await repository.getAllMedicines()).length).toEqual(1);
+    expect(isUUID(createdMedicine.getId()!)).toBe(true);
+    expect(createdMedicine.getName()).toBe('Paracetamol');
+    expect(createdMedicine.getQuantity()).toBe(2);
+    expect(createdMedicine.getUnit()).toBe(MedicineUnit.COMPRIMIDOS);
+    expect(createdMedicine.getDescription()).toBe('Tomar remédio 2X ao dia');
+    expect(createdMedicine.getEventTime()).toEqual(new Date('2025-02-25T09:00:00.000Z'));
+    expect(createdMedicine.getCategory().getId()).toBe('1');
+    expect(createdMedicine.getCategory().getDescription()).toBe('Diário');
+    expect(createdMedicine.getRepeatFor()).toBe(5);
+    expect(createdMedicine.getCompleted()).toBe(false);
+    expect(createdMedicine.getElderlyId()).toBe(elderlyId);
+    expect(createdMedicine.getUserId()).toBe(userId);
   });
 });

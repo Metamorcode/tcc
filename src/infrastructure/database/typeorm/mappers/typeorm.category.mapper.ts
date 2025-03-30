@@ -10,6 +10,8 @@ export class TypeORMCategoryMapper {
     const categoryEntity = new CategoryEntity();
     categoryEntity.id = category.getId();
     categoryEntity.description = category.getDescription();
+    categoryEntity.tasks = [];
+    
     return categoryEntity;
   }
 }

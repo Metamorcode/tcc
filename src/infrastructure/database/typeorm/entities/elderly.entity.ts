@@ -12,7 +12,7 @@ export class ElderlyEntity {
   @Column()
   lastName: string;
 
-  @Column()
+  @Column({ type: 'timestamp' })
   birthDate: Date;
 
   @OneToMany(() => TaskEntity, (task) => task.elderly, {

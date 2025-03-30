@@ -6,7 +6,7 @@ import { Injectable } from '@nestjs/common';
 export class GetAllUsersUseCase {
   constructor(readonly repository: UserRepository) {}
 
-  execute(): Promise<User[]> {
-    return this.repository.getAllUsers();
+  async execute(): Promise<User[]> {
+    return await this.repository.getAllUsers();
   }
 }

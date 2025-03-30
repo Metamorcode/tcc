@@ -1,10 +1,12 @@
 import { TaskRepository } from '../../repositories/task-repository';
 import { Task } from '../../../enterprise/entities/task';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class GetAllTasksUseCase {
   constructor(readonly repository: TaskRepository) {}
 
-  execute(): Promise<Task[]> {
-    return this.repository.getAllTasks();
+  async execute(): Promise<Task[]> {
+    return await this.repository.getAllTasks();
   }
 }

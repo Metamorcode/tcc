@@ -1,33 +1,68 @@
-export class Elderly {
-  private id?: string;
-  private firstName: string;
-  private lastName: string;
-  private birthDate: Date;
+import { v4 as uuidv4 } from 'uuid';
 
-  constructor(firstName: string, lastName: string, birthDate: Date, id?: string) {
-    this.id = id;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.birthDate = birthDate;
+export class Elderly {
+  private _id: string;
+  private _firstName: string;
+  private _lastName: string;
+  private _birthDate: Date;
+  private _userFamily: string;
+  private _tasks: any[] = []; 
+
+  constructor(
+    firstName: string,
+    lastName: string,
+    birthDate: Date,
+    userFamily: string,
+    id?: string
+  ) {
+    this._id = id ?? uuidv4();
+    this._firstName = firstName;
+    this._lastName = lastName;
+    this._birthDate = birthDate;
+    this._userFamily = userFamily;
   }
 
-  getId(): string | undefined {
-    return this.id;
+  getId(): string {
+    return this._id;
   }
 
   getFirstName(): string {
-    return this.firstName;
+    return this._firstName;
+  }
+
+  setFirstName(newFirstName: string): void {
+    this._firstName = newFirstName;
   }
 
   getLastName(): string {
-    return this.lastName;
+    return this._lastName;
   }
 
-  getByName(): string {
-    return `${this.firstName} ${this.lastName}`;
+  setLastName(newLastName: string): void {
+    this._lastName = newLastName;
   }
 
-  getBirth(): Date {
-    return this.birthDate;
+  getBirthDate(): Date {
+    return this._birthDate;
+  }
+
+  setBirthDate(newBirthDate: Date): void {
+    this._birthDate = newBirthDate;
+  }
+
+  getUserFamily(): string {
+    return this._userFamily;
+  }
+
+  setUserFamily(newUserFamily: string): void {
+    this._userFamily = newUserFamily;
+  }
+
+  addTask(task: any): void {
+    this._tasks.push(task);
+  }
+  
+  getTasks(): any[] {
+    return this._tasks;
   }
 }

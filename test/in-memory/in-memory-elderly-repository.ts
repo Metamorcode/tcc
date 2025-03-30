@@ -1,48 +1,48 @@
-import { v4 as uuidv4 } from 'uuid';
 import { Elderly } from '../../src/domain/enterprise/entities/elderly';
-import {
-  ElderlyRepository,
-  ElderlyProps,
-} from 'src/domain/application/repositories/elderly-repository';
+import { ElderlyRepository } from 'src/domain/application/repositories/elderly-repository';
 
 export class InMemoryElderlyRepository implements ElderlyRepository {
-  constructor() {}
-  static elderly: Elderly[] = [];
+  private elderly: Elderly[] = [];
 
-  create({ id, firstName, lastName, birthDate }: ElderlyProps): void {
-    const newId = id ? id : uuidv4();
-    const elderly = new Elderly(firstName, lastName, birthDate, newId);
-    InMemoryElderlyRepository.elderly.push(elderly);
+  async create(elderly: Elderly): Promise<Elderly> {
+    this.elderly.push(elderly);
+    return elderly;
   }
 
-  update({ id, firstName, lastName, birthDate }: ElderlyProps): void {
-    const elderly = new Elderly(firstName, lastName, birthDate, id);
-    const elderlyIndex = InMemoryElderlyRepository.elderly.findIndex((elderly) => {
-      return elderly.getId() === id;
-    });
-    console.log(elderly);
-    InMemoryElderlyRepository.elderly[elderlyIndex] = elderly;
-  }
-
-  delete(id: string): void {
-    const elderlyIndex = InMemoryElderlyRepository.elderly.findIndex((elderly) => {
-      return elderly.getId() === id;
-    });
+  async update(elderly: Elderly): Promise<Elderly> {
+    const elderlyIndex = this.elderly.findIndex((e) => e.getId() === elderly.getId());
 
     if (elderlyIndex !== -1) {
-      InMemoryElderlyRepository.elderly.splice(elderlyIndex, 1);
+      this.elderly[elderlyIndex] = elderly;
+      return elderly;
     }
+
+    throw new Error('Elderly not found');
   }
 
-  getByName(firstName: string, lastName: string): Elderly | null {
-    const result = InMemoryElderlyRepository.elderly.find((elderly) => {
-      return elderly.getByName() === firstName + lastName;
-    });
-
-    return result ? result : null;
+  async getById(id: string): Promise<Elderly | null> {
+    const result = this.elderly.find((e) => e.getId() === id);
+    return result || null;
   }
 
-  getAllElderly(): Promise<Elderly[]> {
-    return Promise.resolve(InMemoryElderlyRepository.elderly);
+  async delete(id: string): Promise<boolean> {
+    const initialLength = this.elderly.length;
+    this.elderly = this.elderly.filter((e) => e.getId() !== id);
+    return this.elderly.length < initialLength;
+  }
+
+  async getByName(firstName: string, lastName: string): Promise<Elderly | null> {
+    const result = this.elderly.find(
+      (e) => e.getFirstName() === firstName && e.getLastName() === lastName
+    );
+    return result || null;
+  }
+
+  async getAllElderly(): Promise<Elderly[]> {
+    return this.elderly;
+  }
+
+  reset(): void {
+    this.elderly = [];
   }
 }

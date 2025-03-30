@@ -1,94 +1,54 @@
-import {
-  MedicineProps,
-  MedicineRepository,
-} from 'src/domain/application/repositories/medicine-repository';
 import { Medicine } from '../../src/domain/enterprise/entities/medicine';
-import { v4 as uuidv4 } from 'uuid';
+import { MedicineRepository } from 'src/domain/application/repositories/medicine-repository';
+import { NotFoundException } from '@nestjs/common';
 
 export class InMemoryMedicineRepository implements MedicineRepository {
-  constructor() {}
-  static medicines: Medicine[] = [];
+  private medicines: Medicine[] = [];
 
-  create({
-    name,
-    quantity,
-    unit,
-    description,
-    eventTime,
-    category,
-    repeatFor,
-    completed,
-    elderlyId,
-    id,
-    createdAt,
-  }: MedicineProps): void {
-    const newId = id ? id : uuidv4();
-    const medicine = new Medicine(
-      name,
-      quantity,
-      unit,
-      description,
-      eventTime,
-      category,
-      repeatFor,
-      completed,
-      elderlyId,
-      newId,
-      createdAt,
-    );
-    InMemoryMedicineRepository.medicines.push(medicine);
+  async create(medicine: Medicine): Promise<Medicine> {
+    this.medicines.push(medicine);
+    return medicine;
   }
 
-  update({
-    name,
-    quantity,
-    unit,
-    description,
-    eventTime,
-    category,
-    repeatFor,
-    completed,
-    elderlyId,
-    id,
-    createdAt,
-  }: MedicineProps): void {
-    const medicine = new Medicine(
-      name,
-      quantity,
-      unit,
-      description,
-      eventTime,
-      category,
-      repeatFor,
-      completed,
-      elderlyId,
-      id,
-      createdAt,
-    );
-    const medicineIndex = InMemoryMedicineRepository.medicines.findIndex((medicine) => {
-      return medicine.getId() === id;
-    });
-    console.log(Medicine);
-    InMemoryMedicineRepository.medicines[medicineIndex] = medicine;
-  }
+  async update(medicine: Medicine): Promise<Medicine> {
+    const medicineIndex = this.medicines.findIndex((m) => m.getMedicineId() === medicine.getMedicineId());
 
-  delete(id: string): void {
-    const medicineIndex = InMemoryMedicineRepository.medicines.findIndex((medicine) => {
-      return medicine.getId() === id;
-    });
-
-    if (medicineIndex !== -1) {
-      InMemoryMedicineRepository.medicines.splice(medicineIndex, 1);
+    if (medicineIndex === -1) {
+      throw new NotFoundException('Medicine not found');
     }
+
+    this.medicines[medicineIndex] = medicine;
+    return medicine;
   }
 
-  getAllMedicines(): Promise<Medicine[]> {
-    return Promise.resolve(InMemoryMedicineRepository.medicines);
+  async delete(id: string): Promise<boolean> {
+    const medicineIndex = this.medicines.findIndex((medicine) => medicine.getMedicineId() === id);
+    if (medicineIndex === -1) {
+      throw new NotFoundException('Medicine not found');
+    }
+    this.medicines.splice(medicineIndex, 1);
+    return true;
   }
 
-  getByCategory(category: string): Medicine[] {
-    return InMemoryMedicineRepository.medicines.filter((medicine) => {
-      return medicine.getCategory().getDescription() === category;
-    });
+  async getById(id: string): Promise<Medicine | null> {
+    const medicine = this.medicines.find((medicine) => medicine.getMedicineId() === id);
+    return medicine || null;
+  }
+
+  async getAllMedicines(): Promise<Medicine[]> {
+    return this.medicines;
+  }
+
+  async patch(id: string, completed: boolean): Promise<boolean> {
+    const medicine = this.medicines.find((medicine) => medicine.getMedicineId() === id);
+    if (!medicine) {
+      return false;
+    }
+    medicine.setCompleted(completed);
+    return true;
+  }
+
+  reset(): void {
+    this.medicines = [];
   }
 }

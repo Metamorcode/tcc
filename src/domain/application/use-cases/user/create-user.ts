@@ -16,7 +16,7 @@ export class CreateUserUseCase {
     role: UserRoles
   ): Promise<User> {
     const user = new User(firstName, lastName, email, login, password, role);
-    await this.repository.create(user);
-    return user;
+
+    return await this.repository.create(user);
   }
 }

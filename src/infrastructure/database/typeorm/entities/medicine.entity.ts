@@ -1,15 +1,24 @@
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, ChildEntity, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
 import { TaskEntity } from './task.entity';
-import { MedicineUnit } from './medicine.unit'; // Importando a classe MedicineUnit
+import { MedicineUnit } from './medicine.unit';
 
 @Entity('medicines')
-export class MedicineEntity extends TaskEntity {
+export class MedicineEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
   @Column()
   name: string;
 
   @Column()
   quantity: number;
+  
+  @JoinColumn({ name: 'task_id' })
+  task: TaskEntity;
 
-  @Column()
+  @Column({
+    type: 'enum',
+    enum: MedicineUnit,
+  })
   unit: MedicineUnit;
 }

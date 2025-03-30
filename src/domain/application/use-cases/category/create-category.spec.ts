@@ -4,9 +4,9 @@ import { CreateCategoryUseCase } from './create-category';
 describe('Create Category', () => {
   const repository = new InMemoryCategoryRepository();
 
-  it('should be able to create a new category', () => {
+  it('should be able to create a new category', async () => {
     const createCategory = new CreateCategoryUseCase(repository);
-    createCategory.execute('Diário');
+    await createCategory.execute('Diário'); 
     expect(InMemoryCategoryRepository.categories.length).toEqual(1);
   });
 });

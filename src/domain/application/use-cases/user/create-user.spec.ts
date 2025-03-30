@@ -9,24 +9,23 @@ describe('Create User', () => {
   it('should be able to create a new user', async () => {
     const createUser = new CreateUserUseCase(repository);
 
-    await createUser.execute(
-      'Leonardo',
-      'Almonfrey',
-      'leo.almonfrey@example.com',
-      'almonfrey',
-      'godishere',
+    const createdUser = await createUser.execute(
+      'Mary',
+      'Jane',
+      'jane.mary@example.com',
+      'jane',
+      'spiderman2002',
       UserRoles.CREATOR
     );
 
-    // expect(InMemoryUserRepository.users.length).toEqual(1);
-    // const createdUser = InMemoryUserRepository.user[0];
+    expect((await repository.getAllUsers()).length).toEqual(1);
 
-    expect(isUUID(createdUser.getId()!)).toBe(true); // Garante que o id gerado é um UUID válido
-    expect(createdUser.getFirstName()).toBe('Leonardo');
-    expect(createdUser.getLastName()).toBe('Almonfrey');
-    expect(createdUser.getEmail()).toBe('leo.almonfrey@example.com');
-    expect(createdUser.getLogin()).toBe('almonfrey');
-    expect(createdUser.getPassword()).toBe('godishere');
+    expect(isUUID(createdUser.getId()!)).toBe(true);
+    expect(createdUser.getFirstName()).toBe('Mary');
+    expect(createdUser.getLastName()).toBe('Jane');
+    expect(createdUser.getEmail()).toBe('jane.mary@example.com');
+    expect(createdUser.getLogin()).toBe('jane');
+    expect(createdUser.getPassword()).toBe('spiderman2002');
     expect(createdUser.getRole()).toBe(UserRoles.CREATOR);
   });
 });

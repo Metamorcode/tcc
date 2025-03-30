@@ -1,14 +1,16 @@
 import { Category } from './category';
+import { v4 as uuidv4 } from 'uuid';
 
 export class Task {
-  private description: string;
-  private eventTime: Date;
-  private category: Category;
-  private repeatFor: number;
-  private completed: boolean;
-  private elderlyId: string;
-  private id?: string;
-  private createdAt?: Date;
+  private _description: string;
+  private _eventTime: Date;
+  private _category: Category;
+  private _repeatFor: number;
+  private _completed: boolean;
+  private _elderlyId: string;
+  private _userId: string;
+  private _id: string;
+  private _createdAt: Date;
 
   constructor(
     description: string,
@@ -17,56 +19,88 @@ export class Task {
     repeatFor: number,
     completed: boolean,
     elderlyId: string,
-    id?: string,
-    createdAt?: Date
+    userId: string,
+    createdAt: Date = new Date(),
+    id?: string
   ) {
-    this.description = description;
-    this.eventTime = eventTime;
-    this.category = category;
-    this.repeatFor = repeatFor;
-    this.completed = completed;
-    this.elderlyId = elderlyId;
-    this.id = id;
-    this.createdAt = createdAt;
+    this._description = description;
+    this._eventTime = eventTime;
+    this._category = category;
+    this._repeatFor = repeatFor;
+    this._completed = completed;
+    this._elderlyId = elderlyId;
+    this._userId = userId;
+    this._createdAt = createdAt;
+    this._id = id ?? uuidv4();
   }
 
   getId() {
-    return this.id;
+    return this._id;
   }
 
   getDescription() {
-    return this.description;
+    return this._description;
   }
 
   getEventTime() {
-    return this.eventTime;
+    return this._eventTime;
   }
 
   getCategory() {
-    return this.category;
+    return this._category;
   }
 
   getRepeatFor() {
-    return this.repeatFor;
+    return this._repeatFor;
   }
 
   getCompleted() {
-    return this.completed;
+    return this._completed;
+  }
+
+  getUserId() {
+    return this._userId;
   }
 
   getElderlyId() {
-    return this.elderlyId;
+    return this._elderlyId;
   }
 
-  getCreateAt() {
-    return this.createdAt;
+  getCreatedAt() {
+    return this._createdAt;
+  }
+
+  // Setters para permitir a atualização dos campos
+
+  setDescription(description: string): void {
+    this._description = description;
+  }
+
+  setEventTime(eventTime: Date): void {
+    this._eventTime = eventTime;
+  }
+
+  setCategory(category: Category): void {
+    this._category = category;
+  }
+
+  setRepeatFor(repeatFor: number): void {
+    this._repeatFor = repeatFor;
   }
 
   setCompleted(completed: boolean): void {
-    this.completed = completed;
+    this._completed = completed;
+  }
+
+  setElderlyId(elderlyId: string): void {
+    this._elderlyId = elderlyId;
   }
 
   updateStatus(completed: boolean) {
-    this.completed = completed;
+    this._completed = completed;
+  }
+
+  setUserId(userId: string): void {
+    this._userId = userId;
   }
 }

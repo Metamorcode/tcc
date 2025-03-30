@@ -6,12 +6,13 @@ export class InMemoryCategoryRepository implements CategoryRepository {
   constructor() {}
   static categories: Category[] = [];
 
-  create(description: string): void {
+  async create(description: string): Promise<Category> {
     const category = new Category(uuidv4(), description);
     InMemoryCategoryRepository.categories.push(category);
+    return category;
   }
 
-  getByDescription(description: string): Category | null {
+  async getByDescription(description: string): Promise<Category | null> {
     const result = InMemoryCategoryRepository.categories.find((category) => {
       return category.getDescription() === description;
     });

@@ -1,20 +1,9 @@
 import { Elderly } from 'src/domain/enterprise/entities/elderly';
 
-export interface ElderlyProps {
-  id?: string;
-  firstName: string;
-  lastName: string;
-  birthDate: Date;
-}
-
 export abstract class ElderlyRepository {
-  abstract create(props: ElderlyProps): Promise<void>;
-
-  abstract update(props: ElderlyProps): Promise<void>;
-
-  abstract delete(id: string): Promise<void>;
-
-  abstract getByName(firstName: string, lastName: string): Elderly | null;
-
+  abstract create(elderly: Elderly): Promise<Elderly>;
+  abstract update(elderly: Elderly): Promise<Elderly>;
+  abstract delete(id: string): Promise<boolean>;
+  abstract getById(id: string): Promise<Elderly | null>;
   abstract getAllElderly(): Promise<Elderly[]>;
 }
