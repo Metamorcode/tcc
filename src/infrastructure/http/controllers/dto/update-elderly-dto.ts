@@ -11,5 +11,5 @@ export class UpdateElderlyDto {
   birthDate?: Date;
 
   @IsString()
-  userFamilyId?: string;
+  userFamily?: string;
 }

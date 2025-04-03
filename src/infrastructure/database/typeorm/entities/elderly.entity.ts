@@ -15,6 +15,9 @@ export class ElderlyEntity {
   @Column({ type: 'timestamp' })
   birthDate: Date;
 
+  @Column()
+  userFamily?: string;
+
   @OneToMany(() => TaskEntity, (task) => task.elderly, {
     cascade: true,
     eager: true,

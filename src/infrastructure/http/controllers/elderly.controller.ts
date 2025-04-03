@@ -11,12 +11,13 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody } from '@nestjs/swagger';
 import { ElderlyDto } from './dto/elderly.dto';
+import { UpdateElderlyDto } from './dto/update-elderly-dto';
+
 import { CreateElderlyUseCase } from '../../../domain/application/use-cases/elderly/create-elderly';
 import { GetAllElderlyUseCase } from '../../../domain/application/use-cases/elderly/get-all-elderly';
 import { GetByIdElderlyUseCase } from '../../../domain/application/use-cases/elderly/get-by-id-elderly';
 import { DeleteElderlyUseCase } from '../../../domain/application/use-cases/elderly/delete-elderly';
 import { UpdateElderlyUseCase } from '../../../domain/application/use-cases/elderly/update-elderly';
-import { UpdateElderlyDto } from './dto/update-elderly-dto';
 
 @ApiTags('Elderly')
 @Controller('api/elderly')
@@ -55,7 +56,13 @@ export class ElderlyController {
 
       return {
         message: 'Elderly person created successfully',
-        elderly: { id: elderly.getId(), ...elderly },
+        elderly: {
+          id: elderly.getId(),
+          firstName: elderly.getFirstName(),
+          lastName: elderly.getLastName(),
+          birthDate: elderly.getBirthDate(),
+          userFamily: elderly.getUserFamily(),
+        },
       };
     } catch (error) {
       throw new BadRequestException('Elderly person could not be created');

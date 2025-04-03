@@ -9,7 +9,8 @@ export class TypeORMElderlyMapper {
       raw.firstName,
       raw.lastName,
       raw.birthDate,
-      raw.id 
+      raw.id,
+      raw.userFamily
     );
 
     raw.tasks?.forEach((taskEntity) => {
@@ -20,7 +21,7 @@ export class TypeORMElderlyMapper {
         category: task.getCategory(),
         repeatFor: task.getRepeatFor(),
         completed: task.getCompleted(),
-        elderlyId: task.getElderlyId(),
+        elderlyId: elderly.getId(),
       });
       const lastTask = elderly.getTasks()[elderly.getTasks().length - 1];
       lastTask.updateStatus(task.getCompleted());
@@ -31,9 +32,13 @@ export class TypeORMElderlyMapper {
 
   static toTypeORM(elderly: Elderly): ElderlyEntity {
     const elderlyEntity = new ElderlyEntity();
+    if (elderly.getId() && isUUID(elderly.getId())) {
+      elderlyEntity.id = elderly.getId()!;
+    }
     elderlyEntity.firstName = elderly.getFirstName();
     elderlyEntity.lastName = elderly.getLastName();
     elderlyEntity.birthDate = elderly.getBirthDate(); 
+    elderlyEntity.userFamily = elderly.getUserFamily();
 
     elderlyEntity.tasks = elderly.getTasks().map((task) => TypeORMTaskMapper.toTypeORM(task));
 

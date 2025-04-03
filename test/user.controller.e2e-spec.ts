@@ -162,7 +162,6 @@ describe('UserController (e2e)', () => {
 
   describe('/api/users/:id (PUT)', () => {
     it('should update a user by ID', async () => {
-      // Criar usuário para testar o update
       const createRes = await request(app.getHttpServer())
         .post('/api/users')
         .send({

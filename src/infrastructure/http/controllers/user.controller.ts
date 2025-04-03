@@ -11,12 +11,13 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody } from '@nestjs/swagger';
 import { UserDto } from './dto/user.dto';
+import { UpdateUserDto } from './dto/update-user-dto';
+
 import { CreateUserUseCase } from '../../../domain/application/use-cases/user/create-user';
 import { GetAllUsersUseCase } from '../../../domain/application/use-cases/user/get-all-users';
 import { GetByIdUserUseCase } from '../../../domain/application/use-cases/user/get-by-id-user';
 import { DeleteUserUseCase } from '../../../domain/application/use-cases/user/delete-user';
 import { UpdateUserUseCase } from '../../../domain/application/use-cases/user/update-user';
-import { UpdateUserDto } from './dto/update-user-dto';
 
 @ApiTags('Users')
 @Controller('api/users')

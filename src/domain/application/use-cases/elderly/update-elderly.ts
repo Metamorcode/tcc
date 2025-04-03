@@ -22,6 +22,9 @@ export class UpdateElderlyUseCase {
     if (updateElderlyDto.birthDate) {
       elderly.setBirthDate(new Date(updateElderlyDto.birthDate));
     }
+    if (updateElderlyDto.userFamily) {
+      elderly.setUserFamily(updateElderlyDto.userFamily);
+    }
 
     await this.repository.update(elderly);
     return elderly;
